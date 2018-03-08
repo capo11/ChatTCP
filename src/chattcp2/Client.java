@@ -13,16 +13,17 @@ import java.net.*;
 import java.io.*;
 
 public class Client {
-	private Socket connessione;
-	private BufferedReader in;
-	private PrintStream out;
-
+	 Socket connessione;
+	 BufferedReader in;
+	 PrintStream out;
+                      int port=1000;
+                      public static final String GREEN = "\u001B[32m";
+                      public static final String RED = "\u001B[31m";
+                      
 	public Client() {
 		BufferedReader t = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			//System.out.println("Inserire indirizzo server: (127.0.0.1) ");
-			//String indirizzo = t.readLine();
-			connessione = new Socket("127.0.0.1", 1000);
+			connessione = new Socket("127.0.0.1",  port);
 			in = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
 			out = new PrintStream(connessione.getOutputStream());
 		}
@@ -46,7 +47,7 @@ public class Client {
 			connessione.close();
 		}
 		catch(IOException e) {
-			System.out.println("Conversazione interrotta");
+			System.out.println(RED + "Conversazione interrotta");
 		}
 	} // conversazione()
 }

@@ -11,7 +11,7 @@ package chattcp2;
  */
 public class MainServer {
 	public static void main(String[] args) {
-		Server s = new Server("Server");
+		Server s = new Server();
 		s.conversazione();
 	}
 }

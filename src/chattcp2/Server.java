@@ -15,18 +15,16 @@ import java.io.*;
 public class Server {
 	private ServerSocket server;
 	private Socket connessione;
-	private BufferedReader dalClient;
-	private PrintStream alClient;
-	private String name;
+	private BufferedReader in;
+	private PrintStream out;
 
-	public Server(String name) {
-		this.name = name;
+	public Server() {
 		try {
 			server = new ServerSocket(1000, 5);
 			System.out.println("Server attivo");
 			connessione = server.accept();
-			dalClient = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
-			alClient = new PrintStream(connessione.getOutputStream());
+			in = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
+			out = new PrintStream(connessione.getOutputStream());
 		}
 		catch(IOException e) {
 			System.out.println(e);
@@ -37,13 +35,13 @@ public class Server {
 		String messaggio = "";
 		BufferedReader t = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			alClient.println("Simple Hack Chat - Sei connesso al server! Digita /logout per effetuare la disconnessione.");
-			while(!messaggio.equals("/logout")) {
-				messaggio = dalClient.readLine();
+			out.println("Connessione effettuata! Digita end per effetuare la disconnessione.");
+			while(!messaggio.equals("end")) {
+				messaggio = in.readLine();
 				System.out.println(messaggio);
-				if(!messaggio.equals("/logout")) {
+				if(!messaggio.equals("end")) {
 					messaggio = t.readLine();
-					alClient.println(name+" scrive: "+messaggio);
+					out.println("Server:  "+messaggio);
 				}
 			} // while
 		}

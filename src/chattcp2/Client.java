@@ -14,19 +14,17 @@ import java.io.*;
 
 public class Client {
 	private Socket connessione;
-	private BufferedReader dalServer;
-	private PrintStream alServer;
-	private String name;
+	private BufferedReader in;
+	private PrintStream out;
 
-	public Client(String name) {
-		this.name = name;
+	public Client() {
 		BufferedReader t = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			System.out.println("Inserire indirizzo server: (127.0.0.1) ");
-			String indirizzo = t.readLine();
-			connessione = new Socket(indirizzo, 1000);
-			dalServer = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
-			alServer = new PrintStream(connessione.getOutputStream());
+			//System.out.println("Inserire indirizzo server: (127.0.0.1) ");
+			//String indirizzo = t.readLine();
+			connessione = new Socket("127.0.0.1", 1000);
+			in = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
+			out = new PrintStream(connessione.getOutputStream());
 		}
 		catch(IOException e) {
 			System.out.println(e);
@@ -37,12 +35,12 @@ public class Client {
 		String messaggio = "";
 		BufferedReader t = new BufferedReader(new InputStreamReader(System.in));
 		try {
-			while(!messaggio.equals("/logout")) {
-				messaggio = dalServer.readLine();
+			while(!messaggio.equals("end")) {
+				messaggio = in.readLine();
 				System.out.println(messaggio);
-				if(!messaggio.equals("/logout")) {
+				if(!messaggio.equals("end")) {
 					messaggio = t.readLine();
-					alServer.println(name+" scrive: "+messaggio);
+					out.println("Client:  "+messaggio);
 				}
 			} // while
 			connessione.close();
